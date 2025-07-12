@@ -34,6 +34,9 @@ spring:
       include-message: always
       include-stacktrace: always # Mude para 'on_param' ou 'never' em produção por segurança
       include-binding-errors: always
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "*"
 
 # Adicione este bloco ao seu application.yml
   devtools:
