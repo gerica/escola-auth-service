@@ -1,0 +1,25 @@
+name: escola
+
+services:
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: auth-service
+    ports:
+      - "8082:8080"
+      - "5005:5005"
+    volumes:
+      # Mapeia o diretório atual (raiz do projeto) para /app
+      - .:/app
+    # A diretiva 'env_file' diz explicitamente para carregar as variáveis deste arquivo.
+    env_file:
+      - ./.env
+#    environment:
+#      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - escola-network
+
+networks:
+  escola-network:
+    driver: bridge

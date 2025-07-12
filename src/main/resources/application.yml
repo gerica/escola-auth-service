@@ -1,0 +1,99 @@
+app:
+  description: Módulo de autenticacao
+
+server:
+  port: 8082 # Uma nova porta para este serviço
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_HIBERNATE_SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: ${SPRING_JPA_HIBERNATE_PROPERTIES_FORMAT_SQL:true}
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  graphql:
+    http:
+      path: /graphql
+    graphiql:
+      path: /graphql
+      enabled: true
+    federation:
+      enabled: true
+    errors:
+      include-exception: true
+      include-message: always
+      include-stacktrace: always # Mude para 'on_param' ou 'never' em produção por segurança
+      include-binding-errors: always
+
+# Adicione este bloco ao seu application.yml
+  devtools:
+    restart:
+      # Habilita a verificação ativa por mudanças
+      poll-interval: 2s # Verifica a cada 2 segundos
+      quiet-period: 1s  # Espera 1 segundo após uma mudança antes de reiniciar
+
+    # Generate a secure 256-bit key. You can use an online generator.
+    # For example: openssl rand -base64 32
+
+# Configuração do cliente Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+  instance:
+    hostname: auth-service
+    prefer-ip-address: true
+#    instance-id: ${spring.application.name}:${server.port}:${random.value}
+
+application:
+  security:
+    jwt:
+      secret-key: ${APPLICATION_SECURITY_JWT_SECRET_KEY}
+      expiration: 86400000 # 24 hours in milliseconds
+
+# ===================================================================
+# CONFIGURAÇÃO DE LOG PARA DEPURACAO
+# ===================================================================
+logging:
+  level:
+    # Nível de log geral para toda a aplicação. INFO é um bom padrão.
+    # Para depuração intensiva como agora, mude para DEBUG.
+    root: INFO
+
+    # Nível de log para o seu próprio código.
+    # Use DEBUG para ver logs de desenvolvimento que você possa ter adicionado.
+    com.escola.auth: DEBUG
+
+    # Logs detalhados do Spring Security. Essencial para depurar problemas de autenticação/autorização.
+    # O nível DEBUG já é bem verboso e útil.
+    org.springframework.security: DEBUG
+
+    # Logs do Spring para a camada web, incluindo o tratamento de requisições.
+    org.springframework.web: DEBUG
+
+    # Logs do GraphQL Java Engine. Ajuda a ver como as queries são processadas.
+    graphql: DEBUG
+
+    # --- Configuração para depuração de Banco de Dados (JPA/Hibernate) ---
+    # Se você suspeita de problemas com o banco de dados, descomente as linhas abaixo.
+
+    # Mostra as queries SQL que o Hibernate está gerando.
+    # org.hibernate.SQL: DEBUG
+
+    # Mostra os valores dos parâmetros que são vinculados às queries SQL.
+    # Essencial para ver exatamente com quais dados a query está sendo executada.
+    # org.hibernate.type.descriptor.sql: TRACE
+
+# ===================================================================
+# CONFIGURAÇÃO DE ERROS DO GRAPHQL
+# ===================================================================
