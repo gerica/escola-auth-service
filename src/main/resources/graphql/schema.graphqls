@@ -1,4 +1,5 @@
 scalar Long
+scalar DateTime
 
 enum Role {
     ADMIN
@@ -22,6 +23,7 @@ type AppConfigResponse{
     name: String
     description: String
     version: String
+    time: DateTime
 }
 
 type Query {
