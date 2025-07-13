@@ -7,16 +7,12 @@ services:
       dockerfile: ./Dockerfile
     container_name: auth-service
     ports:
-      - "8082:8082"
-      - "5005:5005"
+      - "${CLIENT_SERVICE_PORT}:${CLIENT_SERVICE_PORT}"
+      - "${CLIENT_SERVICE_DEBUG_PORT}:${CLIENT_SERVICE_DEBUG_PORT}"
     volumes:
-      # Mapeia o diretório atual (raiz do projeto) para /app
       - .:/app
-    # A diretiva 'env_file' diz explicitamente para carregar as variáveis deste arquivo.
     env_file:
       - ./.env
-#    environment:
-#      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     networks:
       - escola-network
 

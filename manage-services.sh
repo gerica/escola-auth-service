@@ -59,7 +59,7 @@ check_and_start() {
 
 # Função para forçar uma reinicialização completa com build
 force_restart() {
-  create_schema
+#  create_schema
   echo -e "${YELLOW}Reiniciando o ambiente com reconstrução de imagem...${NC}"
   echo "Parando o serviço..."
   docker compose down
@@ -70,7 +70,7 @@ force_restart() {
 
 # Função para reiniciar apenas o contêiner
 reload_container() {
-  create_schema
+#  create_schema
   echo -e "${YELLOW}Reiniciando o contêiner do serviço '${SERVICE_NAME}'...${NC}"
   docker compose restart "$SERVICE_NAME"
   echo -e "${GREEN}Contêiner reiniciado com sucesso.${NC}"

@@ -3,7 +3,6 @@ package com.escola.auth.controller;
 
 import com.escola.auth.model.model.mapper.AppConfigMapper;
 import com.escola.auth.model.model.response.AppConfigResponse;
-import io.leangen.graphql.annotations.GraphQLQuery;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ public class AppConfigController {
     AppConfigMapper appConfigMapper;
     String appDescription;
 
-
     public AppConfigController(
             BuildProperties buildProperties,
             AppConfigMapper appConfigMapper,
@@ -32,7 +30,6 @@ public class AppConfigController {
         this.appDescription = appDescription;
     }
 
-    @GraphQLQuery(name = "getAppConfigAuth") // Para o SchemaGenerator (SPQR)
     @QueryMapping(name = "getAppConfigAuth")
     public AppConfigResponse getAppConfigAuth() {
         log.info("Executando getAppConfigAuth..."); // Adicione um log para confirmar a execução

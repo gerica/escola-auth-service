@@ -1,0 +1,34 @@
+scalar Long
+
+enum Role {
+    ADMIN
+    USER
+}
+
+input AuthenticationRequest {
+    username: String
+    password: String
+}
+
+type AuthenticationResponse{
+    token: String!
+    username: String!
+    firstName: String
+    lastName: String
+    roles: [Role!]!
+}
+
+type AppConfigResponse{
+    name: String
+    description: String
+    version: String
+}
+
+type Query {
+    getAppConfigAuth: AppConfigResponse!
+}
+
+type Mutation{
+    authenticate(request: AuthenticationRequest): AuthenticationResponse!
+}
+

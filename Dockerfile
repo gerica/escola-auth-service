@@ -10,8 +10,8 @@ RUN chmod +x ./gradlew
 RUN chmod +x ./entrypoint.sh
 
 # Expose the application port and the remote debug port
-EXPOSE 8082
-EXPOSE 5005
+EXPOSE ${CLIENT_SERVICE_PORT}
+EXPOSE ${CLIENT_SERVICE_DEBUG_PORT}
 
 # Define nosso script como o ponto de entrada do contêiner
 ENTRYPOINT ["./entrypoint.sh"]
