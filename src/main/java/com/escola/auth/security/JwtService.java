@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -31,7 +35,16 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+        // Prepara as claims extras que queremos adicionar ao token
+        Map<String, Object> extraClaims = new HashMap<>();
+        List<String> authorities = userDetails.getAuthorities()
+                .stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .collect(Collectors.toList());
+        extraClaims.put("authorities", authorities);
+
         return Jwts.builder()
+                .claims(extraClaims) // Adiciona as claims extras aqui
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
